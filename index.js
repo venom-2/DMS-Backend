@@ -54,6 +54,11 @@ app.use('/delete', require('./routes/DeleteData/User'));
 // Delete Assignment ------> Login Required
 app.use('/delete', require('./routes/DeleteData/Assignment'));
 
+
+// Upload .csv file
+// Upload Student data ------> Login Required
+app.use('/csv', require('./routes/UploadCSV/Student'));
+
 // Listen to Port 3000
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
