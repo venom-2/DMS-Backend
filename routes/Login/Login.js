@@ -48,6 +48,8 @@ router.post('/login', [
                 role: user.role,
                 department: user.department,
                 assignedSubjects: user.assignedSubjects,
+                email: user.email,
+                name: user.name
             }
         };
 
