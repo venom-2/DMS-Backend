@@ -9,7 +9,7 @@ router.post('/student',
     // Validation rules
     body('name').notEmpty().withMessage('Name is required'),
     body('rollNumber').notEmpty().withMessage('Roll Number is required'),
-    body('year').isInt().withMessage('Year must be an integer'),
+    body('year').notEmpty().withMessage('Year is required'),
     body('branch').notEmpty().withMessage('Branch is required'),
     body('section').notEmpty().withMessage('Section is required'),
     body('email').isEmail().withMessage('Invalid Email!'),
