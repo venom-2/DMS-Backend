@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: '/tmp' });
 
 router.post('/student', upload.single('file'), async (req, res) => {
   
