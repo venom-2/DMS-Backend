@@ -54,6 +54,10 @@ app.use('/delete', require('./routes/DeleteData/User'));
 // Delete Assignment ------> Login Required
 app.use('/delete', require('./routes/DeleteData/Assignment'));
 
+// fetch data
+// Fetch Faculty ------> Login Required
+app.use('/fetch', require('./routes/Fetch/Faculty'));
+
 
 // Upload .csv file
 // Upload Student data ------> Login Required
