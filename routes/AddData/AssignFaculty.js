@@ -1,7 +1,10 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const Subject = require('../../Model/Subject');
+const User = require('../../Model/User');
+require('dotenv').config();
 
 router.post('/assignfaculty',
     [
@@ -47,16 +50,14 @@ router.post('/assignfaculty',
                 return res.status(404).json({ message: 'Course not found', success: false });
             }
 
-            // Assign Faculty to Course
-
             // Check if faculty is already assigned to the course
-            const isAssigned = faculty.assignedSubejcts.find(subject => subject === subjectId); 
+            const isAssigned = faculty.assignedSubjects.find(subject => subject === subjectId); 
             if (isAssigned) {
-                return res.status(200).json({ message: 'Faculty already assigned to the course!', success: true });
+                return res.status(200).json({ message: 'Faculty already assigned to the course!', success: false });
             }
 
             // Assign faculty to course
-            faculty.assignedSubejcts.push(subjectId);
+            faculty.assignedSubjects.push(subjectId);
             await faculty.save();
 
             // Return Faculty
