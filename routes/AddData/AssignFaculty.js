@@ -57,7 +57,7 @@ router.post('/assignfaculty',
             }
 
             // Assign faculty to course
-            faculty.assignedSubjects.push(subjectId);
+            faculty.assignedSubejcts.push(subjectId);
             await faculty.save();
 
             // Return Faculty

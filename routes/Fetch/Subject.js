@@ -44,7 +44,7 @@ router.get('/subject/:id', async (req, res) => {
 });
 
 // Fecth Subject by year
-router.post('/subject', async (req, res) => {
+router.get('/subjects', async (req, res) => {
     try {
         // Check if user is authorized
         const authToken = req.header('authToken');
@@ -60,11 +60,9 @@ router.post('/subject', async (req, res) => {
             return res.status(401).json({ message: 'Invalid token', success: false });
         }
 
-        const { year } = req.body;
-
         // Fetch Subject from DB
         // Fetch all subjects
-        const subjects = await Subject.find({year}); 
+        const subjects = await Subject.find(); 
 
         // Return Subjects
         res.status(200).json({ success: true, subjects });
