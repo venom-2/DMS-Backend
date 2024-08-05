@@ -57,6 +57,9 @@ app.use('/delete', require('./routes/DeleteData/User'));
 // Delete Assignment ------> Login Required
 app.use('/delete', require('./routes/DeleteData/Assignment'));
 
+// Remove Assigned Subject -------> Login Required
+app.use('/delete', require('./routes/DeleteData/RemoveAssignedSubject'));
+
 // fetch data
 // Fetch Faculty ------> Login Required
 app.use('/fetch', require('./routes/Fetch/Faculty'));
