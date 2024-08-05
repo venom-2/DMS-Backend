@@ -41,6 +41,9 @@ app.use('/add', require('./routes/AddData/Student'));
 // Add Attendance ------> Login Required
 app.use('/add', require('./routes/AddData/Attendance'));
 
+// Assign Faculty ------> Login Required
+app.use('/add', require('./routes/AddData/AssignFaculty'));
+
 // Data deletion routes
 // Delete ClassTest ------> Login Required
 app.use('/delete', require('./routes/DeleteData/ClassTest'));
@@ -57,6 +60,9 @@ app.use('/delete', require('./routes/DeleteData/Assignment'));
 // fetch data
 // Fetch Faculty ------> Login Required
 app.use('/fetch', require('./routes/Fetch/Faculty'));
+
+// Fetch Subject ------> Login Required
+app.use('/fetch', require('./routes/Fetch/Subject'));
 
 
 // Upload .csv file
