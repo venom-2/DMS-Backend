@@ -67,6 +67,9 @@ app.use('/fetch', require('./routes/Fetch/Faculty'));
 // Fetch Subject ------> Login Required
 app.use('/fetch', require('./routes/Fetch/Subject'));
 
+// Fetch Students ------> Login Required
+app.use('/fetch', require('./routes/Fetch/Students'));
+
 
 // Upload .csv file
 // Upload Student data ------> Login Required
