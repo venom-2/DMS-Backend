@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 // Schema for ClassTest
 const classTestSchema = new Schema({
 
-    classTestNumber: { type: Number, required: true },
+    classTestNumber: { type: String, required: true },
     student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
-    year: { type: Number, required: true },
+    year: { type: String, required: true },
     branch: { type: String, required: true },
     section: { type: String, required: true },
-    semester: { type: Number, required: true },
+    semester: { type: String, required: true },
     session: { type: String, required: true },
     marks: {
         sectionA: {

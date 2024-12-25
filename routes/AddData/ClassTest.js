@@ -5,21 +5,7 @@ const ClassTest = require('../../Model/ClassTest');
 const router = express.Router();
 
 router.post('/classtest',
-    // Validation rules
-    body('classTestNumber').isInt().withMessage('Class Test number must be an integer'),
-    body('student').isMongoId().withMessage('Student ID must be a valid ObjectId'),
-    body('year').isInt().withMessage('Year must be an integer'),
-    body('branch').notEmpty().withMessage('Branch is required'),
-    body('section').notEmpty().withMessage('Section is required'),
-    body('semester').isInt().withMessage('Semester must be an integer'),
-    body('session').notEmpty().withMessage('Session is required'),
     async (req, res) => {
-
-        // Check for validation errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array(), success: false });
-        }
 
         try {
             // Check if user is authorized
@@ -64,7 +50,8 @@ router.post('/classtest',
             return res.status(200).json({ message: 'Class Test added successfully', success: true });
 
         } catch (error) {
-
+            // Log error
+            console.error(error.message);
             // Return error
             return res.status(500).json({ message: 'Internal Server Error', success: false });
 

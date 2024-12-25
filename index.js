@@ -70,6 +70,9 @@ app.use('/fetch', require('./routes/Fetch/Subject'));
 // Fetch Students ------> Login Required
 app.use('/fetch', require('./routes/Fetch/Students'));
 
+// Fetch Class Test marks ------> Login Required
+app.use('/fetch', require('./routes/Fetch/ClassTest'));
+
 
 // Upload .csv file
 // Upload Student data ------> Login Required

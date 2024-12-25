@@ -12,7 +12,7 @@ const router = express.Router();
 const upload = multer({ dest: '/tmp' });
 
 router.post('/student', upload.single('file'), async (req, res) => {
-  
+
     // Check if user is authorized
     const authToken = req.header('authToken');
     if (!authToken) {
@@ -41,7 +41,12 @@ router.post('/student', upload.single('file'), async (req, res) => {
             .on('data', (data) => results.push(data))
             .on('end', async () => {
                 try {
-                    
+                    // Filter out empty objects
+                    const validResults = results.filter(
+                        (item) => Object.keys(item).length > 0
+                    );
+
+                    console.log(results);
                     await Student.insertMany(results);
                     res.json({ message: 'Data successfully imported', success: true });
                 } catch (error) {
