@@ -20,10 +20,10 @@ router.post('/students', async (req, res) => {
             return res.status(401).json({ message: 'Invalid token', success: false });
         }
 
-        const { year } = req.body;
+        const { year, session } = req.body;
 
         // Fetch Students from DB
-        const students = await Student.find({ year });
+        const students = await Student.find({ year, session });
 
         // Check if students exists
         if (!students || students.length === 0) {

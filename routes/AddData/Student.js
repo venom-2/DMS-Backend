@@ -37,7 +37,7 @@ router.post('/student',
             }
 
             // De-structure req body
-            const { name, rollNumber, year, branch, section, email } = req.body;
+            const { name, rollNumber, year, branch, session, section, email } = req.body;
 
             // Check if student already exists
             const existingStudent = await Student.findOne({ rollNumber });
@@ -50,6 +50,7 @@ router.post('/student',
                 name,
                 rollNumber,
                 year,
+                session,
                 branch,
                 section,
                 email

@@ -41,6 +41,7 @@ router.post('/student', upload.single('file'), async (req, res) => {
             .on('data', (data) => results.push(data))
             .on('end', async () => {
                 try {
+                    
                     await Student.insertMany(results);
                     res.json({ message: 'Data successfully imported', success: true });
                 } catch (error) {

@@ -1,11 +1,3 @@
-name,rollNumber,year,branch,section,email,createdAt
-John Doe,202301,2023,Computer Science,A,johnd23@example.com,2024-01-01
-Jane Smith,202302,2023,Computer Science,B,janesmih56@example.com,2024-01-02
-Robert Johnson,202303,2023,Electrical Engineering,A,robertjonson79@example.com,2024-01-03
-Alice Williams,202304,2023,Mechanical Engineering,B,alicewillams02@example.com,2024-01-04
-Michael Brown,202305,2023,Civil Engineering,A,michaelbrwn45@example.com,2024-01-05
-Emily Davis,202306,2023,Information Technology,B,emilydais68@example.com,2024-01-06
-David Wilson,202307,2023,Electronics and Communication,A,davdwilson01@example.com,2024-01-07
-Sarah Miller,202308,2023,Computer Science,A,sarahmiler24@example.com,2024-01-08
-Christopher Moore,202309,2023,Electrical Engineering,B,chritophermoore57@example.com,2024-01-09
-Jessica Taylor,202310,2023,Mechanical Engineering,A,jessicatylor80@example.com,2024-01-10
+name,rollNumber,year,session,branch,section,email,createdAt
+John Doe,9876543,3rd year,2021-22,Computer Science,A,j3@example.com,2024-01-01
+

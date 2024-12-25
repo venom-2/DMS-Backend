@@ -14,6 +14,10 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    session: {
+        type: String,
+        required: true
+    },
     branch: {
         type: String,
         required: true
