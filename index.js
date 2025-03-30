@@ -1,11 +1,14 @@
 const express = require('express');
-const connectToDB = require('./db');
+const pool = require('./db');
+require('dotenv').config();
 const cors = require('cors');
+
+const PORT = process.env.PORT;
 
 // Initialize Express
 const app = express();
 
-connectToDB();
+pool;
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -79,7 +82,7 @@ app.use('/fetch', require('./routes/Fetch/ClassTest'));
 app.use('/csv', require('./routes/UploadCSV/Student'));
 
 // Listen to Port 3000
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 }
 );

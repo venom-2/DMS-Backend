@@ -1,20 +1,23 @@
-const mongoose = require('mongoose');
+const Pool = require('pg').Pool;
 require('dotenv').config();
 
+const pool = new Pool({
+    connectionString: process.env.DB_URI,
+});
 
-const connectToDB = async () => {
-    try {
-
-        // Connect to MongoDB
-        await mongoose.connect(process.env.DB_URI);
-        console.log('Connected to MongoDB');
-
-    } catch (error) {
-
-        // Error connecting to MongoDB
-        console.error('Error connecting to MongoDB', error);
-
+pool.connect((err, client, release) => {
+    if (err) {
+        return console.error(
+            'Error acquiring client', err.stack)
     }
-}
+    client.query('SELECT NOW()', (err, result) => {
+        release()
+        if (err) {
+            return console.error(
+                'Error executing query', err.stack)
+        }
+        console.log("Connected to Database !")
+    })
+})
 
-module.exports = connectToDB;
+module.exports = pool;
