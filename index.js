@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello Krishna. . . </h1>');
 });
 
+//migrated to postgres db for login user
 // Login Route ----> No Login Required
 app.use('/', require('./routes/Login/Login'));
 
@@ -29,6 +30,7 @@ app.use('/', require('./routes/Login/Login'));
 // Add Subject  ------> Login Required
 app.use('/add', require('./routes/AddData/Subject'));
 
+//migrated to postgres db for adding user
 // Add User ------> Login Required
 app.use('/add', require('./routes/AddData/User'));
 
@@ -66,6 +68,9 @@ app.use('/delete', require('./routes/DeleteData/RemoveAssignedSubject'));
 // fetch data
 // Fetch Faculty ------> Login Required
 app.use('/fetch', require('./routes/Fetch/Faculty'));
+
+// // Fetch Users ------> Login Required
+app.use('/fetch', require('./routes/Fetch/User'));
 
 // Fetch Subject ------> Login Required
 app.use('/fetch', require('./routes/Fetch/Subject'));

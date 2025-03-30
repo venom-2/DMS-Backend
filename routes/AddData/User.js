@@ -2,15 +2,16 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const User = require('../../Model/User');
+const pool = require('../../db');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 router.post('/user',
-    body('name').notEmpty().withMessage('User name is required!'),
+    body('first_name').notEmpty().withMessage('User name is required!'),
     body('email').isEmail().withMessage('Invalid Email!'),
     body('password').notEmpty().withMessage('Password is required!'),
     body('role').notEmpty().withMessage('Role is required!'),
-    body('department').notEmpty().withMessage('Department is required!')
+    body('department_id').notEmpty().withMessage('Department is required!')
     , async (req, res) => {
 
         // Check for validation errors
@@ -38,12 +39,12 @@ router.post('/user',
             }
 
             // De-structure data
-            const { name, email, password, role, department } = req.body;
+            const { first_name, last_name, email, password, role, department_id } = req.body;
 
             // Check if user already exists
-            const user = await User.findOne({ email });
-            if (user) {
-                return res.status(400).json({ message: 'User already exists', success: false });
+            const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+            if (existingUser.rows.length > 0) {
+                return res.status(400).json({ message: 'User already exists' });
             }
 
             // Encrypt Password
@@ -51,21 +52,23 @@ router.post('/user',
             const hashedPassword = await bcrypt.hash(password, salt);
 
             // Create User
-            const newUser = new User({
-                name: name,
-                email: email,
-                password: hashedPassword,
-                role: role,
-                department: department
-            });
+            const newUser = await pool.query('INSERT INTO users (email, first_name, last_name, password, role,department_id) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *',
+                [email, first_name, last_name, hashedPassword, role, department_id]);
+
+            console.log(newUser.rows[0]);
+            // Check if user was created successfully
+            if (!newUser.rows[0]) {
+                return res.status(500).json({ message: 'Error creating user', success: false });
+            }
 
             // Save User
-            await newUser.save();
+            await pool.query('COMMIT');
 
             // Return Success
             return res.status(200).json({ message: 'User added successfully', success: true });
 
         } catch (error) {
+            console.log(error);
 
             // Return error
             return res.status(500).json({ message: 'Internal Server Error', success: false });
