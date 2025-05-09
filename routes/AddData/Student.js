@@ -1,63 +1,28 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const Student = require('../../Model/Student'); 
+const pool = require('../../db');
 const router = express.Router();
 
 // Route to add a student
-router.post('/student',
-    // Validation rules
-    body('name').notEmpty().withMessage('Name is required'),
-    body('rollNumber').notEmpty().withMessage('Roll Number is required'),
-    body('year').notEmpty().withMessage('Year is required'),
-    body('branch').notEmpty().withMessage('Branch is required'),
-    body('section').notEmpty().withMessage('Section is required'),
-    body('email').isEmail().withMessage('Invalid Email!'),
-    async (req, res) => {
-
-        // Check for validation errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array(), success: false });
-        }
+router.post('/student',async (req, res) => {
 
         try {
-            // Check if user is authorized
-            const authToken = req.header('authToken');
-            if (!authToken) {
-                return res.status(401).json({ message: 'Access denied!', success: false });
-            }
-
-            // Verify the token
-            let payload;
-            try {
-                payload = jwt.verify(authToken, process.env.JWT_SECRET);
-            } catch (error) {
-                return res.status(401).json({ message: 'Invalid token', success: false });
-            }
-
             // De-structure req body
-            const { name, rollNumber, year, branch, session, section, email } = req.body;
+            const { first_name,last_name,gender, roll_no, passing_year, admission_year,admission_id,admission_type,course_id, department_id, section, email,dob,category,disability,phone_no, semester_id } = req.body;
 
             // Check if student already exists
-            const existingStudent = await Student.findOne({ rollNumber });
-            if (existingStudent) {
+            const existingStudent = await pool.query('SELECT count(*) FROM students WHERE roll_no = $1', [roll_no]);
+            if (existingStudent.rows[0].count!=0) {
                 return res.status(400).json({ message: 'Student with this Roll Number already exists', success: false });
             }
 
             // Create new Student
-            const newStudent = new Student({
-                name,
-                rollNumber,
-                year,
-                session,
-                branch,
-                section,
-                email
-            });
+            await pool.query(
+                'INSERT INTO students VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *',
+                [roll_no, first_name, last_name,department_id,semester_id, phone_no,admission_type, passing_year, section,email,admission_year,course_id,gender,disability,category,dob, admission_id]
+            );
 
             // Save Student
-            await newStudent.save();
+            await pool.query('COMMIT');
 
             // Return Success
             return res.status(201).json({ message: 'Student added successfully', success: true });

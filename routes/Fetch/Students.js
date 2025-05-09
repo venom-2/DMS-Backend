@@ -1,37 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const Student = require('../../Model/Student');
+const pool = require('../../db');
 require('dotenv').config();
 
-router.post('/students', async (req, res) => {
+router.get('/students', async (req, res) => {
     try {
-        // Check if user is authorized
-        const authToken = req.header('authToken');
-        if (!authToken) {
-            return res.status(401).json({ message: 'Access denied!', success: false });
-        }
-
-        // Verify the token
-        let payload;
-        try {
-            payload = jwt.verify(authToken, process.env.JWT_SECRET);
-        } catch (error) {
-            return res.status(401).json({ message: 'Invalid token', success: false });
-        }
-
-        const { year, session } = req.body;
-
-        // Fetch Students from DB
-        const students = await Student.find({ year, session });
-
-        // Check if students exists
-        if (!students || students.length === 0) {
-            return res.status(404).json({ message: 'Students not found', success: false });
-        }
-
+        const studentsQuery = await pool.query("select roll_no, first_name||' '||last_name name,email,gender,semester_id semester from students");
+        const studentsResult = studentsQuery.rows; // Fetch all students
         // Return Students
-        return res.status(200).json({ message: 'Students fetched successfully!', students, success: true });
+        return res.status(200).json({ message: 'Students fetched successfully!', studentsResult, success: true });
 
     } catch (error) {
         console.error(error);

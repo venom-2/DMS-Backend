@@ -37,6 +37,9 @@ app.use('/add', require('./routes/AddData/User'));
 // Add Assignment ------> Login Required
 app.use('/add', require('./routes/AddData/Assignment'));
 
+// Add Assessment------> 
+app.use('/add', require('./routes/AddData/Assessment'));
+
 // Add ClassTest ------> Login Required
 app.use('/add', require('./routes/AddData/ClassTest'));
 
@@ -79,8 +82,16 @@ app.use('/fetch', require('./routes/Fetch/Subject'));
 app.use('/fetch', require('./routes/Fetch/Students'));
 
 // Fetch Class Test marks ------> Login Required
-app.use('/fetch', require('./routes/Fetch/ClassTest'));
+app.use('/fetch', require('./routes/Fetch/MarksAssignment'));
 
+// Fetch Class Test marks ------> Login Required
+app.use('/fetch', require('./routes/Fetch/MarksCT'));
+
+// Fetch Class Test marks ------> Login Required
+app.use('/fetch', require('./routes/Fetch/CO'));
+
+// Fetch Admin Dashboard Cards Data
+app.use('/fetch', require('./routes/Fetch/AdminData'));
 
 // Upload .csv file
 // Upload Student data ------> Login Required
