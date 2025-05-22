@@ -4,6 +4,43 @@ const router = express.Router();
 
 router.post('/course-outcome', async (req, res) => {
     const { semester_id, subject_code, target } = req.body;
+    const result = {
+        ct1: {
+            co1_count_ct1: 0,
+            co2_count_ct1: 0,
+            co3_count_ct1: 0,
+            co4_count_ct1: 0,
+            co5_count_ct1: 0,
+        },
+        ct2: {
+            co1_count_ct2: 0, 
+            co2_count_ct2: 0,
+            co3_count_ct2: 0,
+            co4_count_ct2: 0,
+            co5_count_ct2: 0,
+        },
+        put: {
+            co2_count_put: 0,
+            co2_count_put: 0,
+            co3_count_put: 0,
+            co4_count_put: 0,
+            co5_count_put: 0,
+        },
+        assignment: {   
+            co1: 0,
+            co2: 0,
+            co3: 0,
+            co4: 0,
+            co5: 0,
+        },
+        ut: {
+            co1: 0,
+            co2: 0,
+            co3: 0,
+            co4: 0,
+            co5: 0,
+        },
+    };
 
     const students = await pool.query('SELECT * FROM students WHERE semester_id = $1',[semester_id]);
 
@@ -30,9 +67,9 @@ router.post('/course-outcome', async (req, res) => {
         // Fetching CT-01 details
         const ct1 = await pool.query('select a.type_id,ast.type_name,a.subject_code,s.subject_name,a.max_marks,a.roll_no,a.semester_id,a.marks_obtained,q.question_id,q.question_no,q.max_marks as max_mark,q.question_text,q.co,q.marks_obtained from assessment a,questions q,assessment_type ast, subjects s where ast.type_id = a.type_id and a.assessment_id = q.assessment_id and s.subject_code = a.subject_code AND a.type_id = 1 AND roll_no = $1 AND semester_id = $2 AND s.subject_code = $3;', [roll_no, semester_id, subject_code]);
        
-        if (ct1.rows.length === 0) {
-            return res.status(404).json({ message: 'CT-01 details not found' });
-        }
+        // if (ct1.rows.length === 0) {
+        //     return res.status(200).json({ message: 'CT-01 details not found' });
+        // }
 
         // Calculating COs for CT-01
         for (let j = 0; j < ct1.rows.length; j++) {
@@ -95,9 +132,9 @@ router.post('/course-outcome', async (req, res) => {
         // Fetching CT-02 details
         const ct2 = await pool.query('select a.type_id,ast.type_name,a.subject_code,s.subject_name,a.max_marks,a.roll_no,a.semester_id,a.marks_obtained,q.question_id,q.question_no,q.max_marks as max_mark,q.question_text,q.co,q.marks_obtained from assessment a,questions q,assessment_type ast, subjects s where ast.type_id = a.type_id and a.assessment_id = q.assessment_id and s.subject_code = a.subject_code AND a.type_id = 2 AND roll_no = $1 AND semester_id = $2 AND s.subject_code = $3;', [roll_no, semester_id, subject_code]);
        
-        if (ct2.rows.length === 0) {
-            return res.status(404).json({ message: 'CT-02 details not found' });
-        }
+        // if (ct2.rows.length === 0) {
+        //     return res.status(404).json({ message: 'CT-02 details not found' });
+        // }
 
         for (let j = 0; j < ct2.rows.length; j++) {
             const row = ct2.rows[j];
@@ -159,9 +196,9 @@ router.post('/course-outcome', async (req, res) => {
         // Fetching PUT details
         const put = await pool.query('select a.type_id,ast.type_name,a.subject_code,s.subject_name,a.max_marks,a.roll_no,a.semester_id,a.marks_obtained,q.question_id,q.question_no,q.max_marks as max_mark,q.question_text,q.co,q.marks_obtained from assessment a,questions q,assessment_type ast, subjects s where ast.type_id = a.type_id and a.assessment_id = q.assessment_id and s.subject_code = a.subject_code AND a.type_id = 1 AND roll_no = $1 AND semester_id = $2 AND s.subject_code = $3;', [roll_no, semester_id, subject_code]);
        
-        if (put.rows.length === 0) {
-            return res.status(404).json({ message: 'PUT details not found' });
-        }
+        // if (put.rows.length === 0) {
+        //     return res.status(404).json({ message: 'PUT details not found' });
+        // }
 
         for (let j = 0; j < ct1.rows.length; j++) {
             const row = put.rows[j];
@@ -222,23 +259,8 @@ router.post('/course-outcome', async (req, res) => {
     }
 
     // Sending response with CO counts
-    res.status(200).json({
-        co1_count_ct1,
-        co2_count_ct1,
-        co3_count_ct1,
-        co4_count_ct1,
-        co5_count_ct1,
-        co1_count_ct2,
-        co2_count_ct2,
-        co3_count_ct2,
-        co4_count_ct2,
-        co5_count_ct2,
-        co1_count_put,
-        co2_count_put,
-        co3_count_put,
-        co4_count_put,
-        co5_count_put
-    });
+    res.status(200).json(result);
+
 });
 
 module.exports = router;
