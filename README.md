@@ -42,7 +42,6 @@ COMS is designed to streamline the process of managing and evaluating course out
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/venom-2/DMS-Backend.git
-   cd coms-backend
    ```
 2. **Install dependencies:**
    ```bash
