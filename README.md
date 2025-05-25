@@ -58,3 +58,8 @@ COMS is designed to streamline the process of managing and evaluating course out
    ```bash
    npm start
    ```
+
+## 👨‍💻 Maintained by
+   - Akshat Trivedi
+   - Dept. of Computer Science
+   - IMS Engineering College
